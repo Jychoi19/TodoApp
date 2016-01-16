@@ -1,6 +1,31 @@
-angular.module('todoApp', ['ionic'])
+var app = angular.module('todoApp', ['ionic'])
 
-.run(function($ionicPlatform) {
+app.controller('TodoCtrl', function($scope, $ionicModal) {
+  $scope.tasks = [];
+  
+  $ionicModal.fromTemplateUrl('new-task.html', function(modal){
+    $scope.taskModal = modal;
+  }, {
+    scope: $scope,
+    animation: 'slide-in-up'
+  });
+
+  $scope.createTask = function(task){
+    $scope.tasks.push({
+      title: task.title
+    });
+    $scope.taskModal.hide();
+    task.title = "";
+  };
+  $scope.newTask = function(){
+    $scope.taskModal.show();
+  };
+  $scope.closeNewTask = function(){
+    $scope.taskModal.hide();
+  };
+});
+
+app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

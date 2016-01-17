@@ -40,14 +40,16 @@
       <!-- Left Menu -->
       <ion-side-menu side="left">
         <ion-header-bar class="bar-dark">
+          <button class="button button-icon ion-ios-minus-outline" ng-click="data.showDelete = !data.showDelete"></button>
           <h1 class="title">Projects</h1>
-          <button class="button button-icon ion-plus" ng-click="showProjectModal()">
-          </button>
+          <button class="button button-icon ion-plus" ng-click="showProjectModal()"></button>
         </ion-header-bar>
         <ion-content scroll="false">
-          <ion-list>
+          <ion-list show-delete="data.showDelete">
             <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
               {{project.title}}
+              <ion-delete-button class="ion-minus-circled" ng-click="removeProject(project)">
+              </ion-delete-button>
             </ion-item>
           </ion-list>
         </ion-content>      

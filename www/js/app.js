@@ -82,6 +82,12 @@ app.controller('TodoCtrl', function($scope, $ionicModal, $timeout, Projects, $io
   }, {
     scope: $scope,
   });
+  $scope.closeNewProject = function(){
+    $scope.projectModal.hide();
+  };
+  $scope.toggleProjects = function(){
+    $ionicSideMenuDelegate.toggleLeft();
+  };
 
   $scope.createTask = function(task){
     if(!$scope.activeProject || !task){
@@ -100,11 +106,9 @@ app.controller('TodoCtrl', function($scope, $ionicModal, $timeout, Projects, $io
   $scope.closeNewTask = function(){
     $scope.taskModal.hide();
   };
-  $scope.closeNewProject = function(){
-    $scope.projectModal.hide();
-  };
-  $scope.toggleProjects = function(){
-    $ionicSideMenuDelegate.toggleLeft();
+  $scope.removeTask = function(task){
+    $scope.activeProject.tasks.splice($scope.activeProject.tasks.indexOf(task), 1);
+    Projects.save($scope.projects);
   };
 
   $timeout(function() {

@@ -5,6 +5,7 @@
         A todo list made with Ionic Framework and Cordova.
     </description>
   <author email="">
+    bboydistract
     </author>
   <content src="index.html"/>
   <access origin="*"/>

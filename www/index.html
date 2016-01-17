@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+    <title>TodoApp</title>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="cordova.js"></script>
@@ -12,7 +12,7 @@
   <body ng-app="todoApp" ng-controller="TodoCtrl">
     <ion-side-menus>
 
-      <!-- Ceneter content -->
+      <!-- Center content -->
       <ion-side-menu-content>
         <ion-header-bar class="bar-dark">
           <button class="button button-icon" ng-click="toggleProjects()">
@@ -38,7 +38,7 @@
       <ion-side-menu side="left">
         <ion-header-bar class="bar-dark">
           <h1 class="title">Projects</h1>
-          <button class="button button-icon ion-plus" ng-click="newProject()">
+          <button class="button button-icon ion-plus" ng-click="showProjectModal()">
           </button>
         </ion-header-bar>
         <ion-content scroll="false">
@@ -70,6 +70,31 @@
             </div>
             <div class="padding">
               <button type="submit" class="button button-block button-positive">Create Task</button>
+            </div>
+          </form>
+        </ion-content>
+
+      </div>
+    </script>    
+    <script id="new-project.html" type="text/ng-template">
+      <div class="modal">
+
+        // Modal header bar
+        <ion-header-bar class="bar-secondary">
+          <h1 class="title">New Project</h1>
+          <button class="button button-clear button-positive" ng-click="closeNewProject()">Cancel</button>
+        </ion-header-bar>
+
+        // Modal content area
+        <ion-content>
+          <form ng-submit="newProject(project)">
+            <div class="list">
+              <label class="item item-input">
+                <input type="text" placeholder="Project Name" ng-model="project.title">
+              </label>
+            </div>
+            <div class="padding">
+              <button type="submit" class="button button-block button-positive">Create Project</button>
             </div>
           </form>
         </ion-content>

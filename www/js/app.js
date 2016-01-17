@@ -1,5 +1,23 @@
 var app = angular.module('todoApp', ['ionic'])
 
+app.run(function($ionicPlatform) {
+  $ionicPlatform.ready(function() {
+    if(window.cordova && window.cordova.plugins.Keyboard) {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+
+      // Don't remove this line unless you know what you are doing. It stops the viewport
+      // from snapping when text inputs are focused. Ionic handles this internally for
+      // a much nicer keyboard experience.
+      cordova.plugins.Keyboard.disableScroll(true);
+    }
+    if(window.StatusBar) {
+      StatusBar.styleDefault();
+    }
+  });
+});
+
 app.factory('Projects', function(){
   return {
     all: function(){
@@ -33,14 +51,17 @@ app.controller('TodoCtrl', function($scope, $ionicModal, $timeout, Projects, $io
     $scope.projects.push(newProject);
     Projects.save($scope.projects);
     $scope.selectProject(newProject, $scope.projects.length-1);
+    $scope.projectModal.hide();
   }
 
-  $scope.tasks = [];
   $scope.projects = Projects.all();
   $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
 
-  $scope.newProject = function(){
-    var projectTitle = prompt('Project Name');
+  $scope.showProjectModal = function(){
+    $scope.projectModal.show();
+  }
+  $scope.newProject = function(project){
+    var projectTitle = project.title;
     if(projectTitle) {
       createProject(projectTitle);
     }
@@ -53,6 +74,11 @@ app.controller('TodoCtrl', function($scope, $ionicModal, $timeout, Projects, $io
 
   $ionicModal.fromTemplateUrl('new-task.html', function(modal){
     $scope.taskModal = modal;
+  }, {
+    scope: $scope,
+  });
+  $ionicModal.fromTemplateUrl('new-project.html', function(modal){
+    $scope.projectModal = modal;
   }, {
     scope: $scope,
   });
@@ -74,37 +100,18 @@ app.controller('TodoCtrl', function($scope, $ionicModal, $timeout, Projects, $io
   $scope.closeNewTask = function(){
     $scope.taskModal.hide();
   };
+  $scope.closeNewProject = function(){
+    $scope.projectModal.hide();
+  };
   $scope.toggleProjects = function(){
     $ionicSideMenuDelegate.toggleLeft();
   };
 
   $timeout(function() {
     if($scope.projects.length == 0) {
-      while(true) {
-        var projectTitle = prompt('Your first project title:');
-        if(projectTitle) {
-          createProject(projectTitle);
-          break;
-        }
-      }
+      $scope.projectModal.show();
     }
   });  
 });
 
-app.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    if(window.cordova && window.cordova.plugins.Keyboard) {
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 
-      // Don't remove this line unless you know what you are doing. It stops the viewport
-      // from snapping when text inputs are focused. Ionic handles this internally for
-      // a much nicer keyboard experience.
-      cordova.plugins.Keyboard.disableScroll(true);
-    }
-    if(window.StatusBar) {
-      StatusBar.styleDefault();
-    }
-  });
-})

@@ -52,7 +52,7 @@ app.controller('TodoCtrl', function($scope, $ionicModal, $timeout, Projects, $io
     Projects.save($scope.projects);
     $scope.selectProject(newProject, $scope.projects.length-1);
     $scope.projectModal.hide();
-    project.title = "";
+    // projects.title = "";
   }
 
   $scope.projects = Projects.all();
